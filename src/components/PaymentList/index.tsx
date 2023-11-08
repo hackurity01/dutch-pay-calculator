@@ -1,4 +1,10 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridRowModel,
+  GridValueSetterParams,
+} from '@mui/x-data-grid';
 import Tag from '../Tag';
 import { useMemo, useState } from 'react';
 import { Payment } from '../../types';
@@ -44,8 +50,22 @@ const columns: GridColDef[] = [
     renderCell: renderParticipant,
     renderEditCell: renderParticipantSelectorCell,
   },
-  { field: 'date', headerName: '날짜', width: 150 },
-  { field: 'totalAmount', headerName: '총 결제 금액', width: 150 },
+  { field: 'date', headerName: '날짜', width: 150, editable: true },
+  {
+    field: 'totalAmount',
+    headerName: '총 결제 금액',
+    width: 150,
+    align: 'right',
+    headerAlign: 'right',
+    editable: true,
+    renderCell: (params) => {
+      return params.value.toLocaleString('en-US');
+    },
+    valueSetter: (params) => {
+      const totalAmount = parseInt(params.value!);
+      return { ...params.row, totalAmount };
+    },
+  },
 ];
 
 const rows = [
