@@ -6,21 +6,18 @@ export function calcPay(data: Payment[]): Participants {
   data.forEach((item) => {
     const numberOfParticipants = item.participants.length;
     const totalAmount = item.totalAmount;
-
-    if (!totalAmount) {
-      console.warn('totalAmount 값이 옳바르지 않습니다.', item, item.totalAmount);
-      return;
-    }
-
     const payPerPerson = totalAmount / numberOfParticipants;
 
-    if (!Object.hasOwn(participants, item.payer))
+    if (!Object.hasOwn(participants, item.payer)) {
       participants[item.payer] = getInitialParticipantData();
+    }
+
     item.participants.forEach((p) => {
       if (!Object.hasOwn(participants, p)) participants[p] = getInitialParticipantData();
       participants[p].totalAmountSpent += payPerPerson;
       participants[p].details.push({ amount: payPerPerson, payment: item });
     });
+
     participants[item.payer].totalAmountSpent -= totalAmount;
     participants[item.payer].details[participants[item.payer].details.length - 1].amount -=
       totalAmount;
