@@ -1,23 +1,9 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridRowModel,
-  GridValueSetterParams,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
+import { useAtom } from 'jotai';
+import { useMemo } from 'react';
+
+import { paymentListAtom } from '../../store/paymentListAtom';
 import Tag from '../Tag';
-import { useMemo, useState } from 'react';
-import { Payment } from '../../types';
-/*
-export type Payment = {
-  category: string;
-  name: string;
-  payer: string;
-  participants: string[];
-  date: string;
-  totalAmount: string;
-};
-*/
 
 function renderParticipant(params: GridRenderCellParams<any, string[]>) {
   return (
@@ -68,49 +54,8 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    category: 'Hello',
-    payer: 'AAA',
-    participants: ['AAA', 'BBB', 'AA'],
-    date: '',
-    totalAmount: 0,
-  },
-  { id: 2, category: 'Hello', payer: 'BBB', participants: ['BBB', 'AA'], date: '', totalAmount: 0 },
-  { id: 3, category: 'Hello', payer: 'AAA', participants: ['AAA'], date: '', totalAmount: 0 },
-];
-
 function PaymentList() {
-  const [paymentList, setPaymentList] = useState<(Payment & { id: string })[]>([
-    {
-      id: '1',
-      name: '1',
-      category: 'Hello',
-      payer: 'AAA',
-      participants: ['AAA', 'BBB', 'AA'],
-      date: '',
-      totalAmount: 0,
-    },
-    {
-      id: '2',
-      name: '2',
-      category: 'Hello',
-      payer: 'BBB',
-      participants: ['BBB', 'AA'],
-      date: '',
-      totalAmount: 0,
-    },
-    {
-      id: '3',
-      name: '3',
-      category: 'Hello',
-      payer: 'AAA',
-      participants: ['AAA'],
-      date: '',
-      totalAmount: 0,
-    },
-  ]);
+  const [paymentList, setPaymentList] = useAtom(paymentListAtom);
 
   const processRowUpdate = (newRow: GridRowModel) => {
     console.log('newRow', newRow);
