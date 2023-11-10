@@ -2,7 +2,7 @@ import { DataGrid, GridColDef, GridRenderCellParams, GridRowModel } from '@mui/x
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 
-import { paymentListAtom } from '../../store/paymentListAtom';
+import { paymentListAtom } from '../../stores/paymentListAtom';
 import Tag from '../Tag';
 
 function renderParticipant(params: GridRenderCellParams<any, string[]>) {
