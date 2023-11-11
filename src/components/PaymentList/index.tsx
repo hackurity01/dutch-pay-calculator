@@ -84,8 +84,8 @@ function PaymentList() {
   return (
     <>
       <DataGrid
-        rows={paymentList}
         columns={columns}
+        rows={paymentList}
         initialState={{
           pagination: {
             paginationModel: {

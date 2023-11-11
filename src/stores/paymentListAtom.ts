@@ -10,7 +10,7 @@ export const paymentListAtom = atom<(Payment & { id: string })[]>([
     payer: 'AAA',
     participants: ['AAA', 'BBB', 'AA'],
     date: '',
-    totalAmount: 0,
+    totalAmount: 300,
   },
   {
     id: '2',
@@ -19,7 +19,7 @@ export const paymentListAtom = atom<(Payment & { id: string })[]>([
     payer: 'BBB',
     participants: ['BBB', 'AA'],
     date: '',
-    totalAmount: 0,
+    totalAmount: 20,
   },
   {
     id: '3',
@@ -28,6 +28,6 @@ export const paymentListAtom = atom<(Payment & { id: string })[]>([
     payer: 'AAA',
     participants: ['AAA'],
     date: '',
-    totalAmount: 0,
+    totalAmount: 1,
   },
 ]);

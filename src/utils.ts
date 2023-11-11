@@ -1,5 +1,12 @@
 import { ParticipantData, Participants, Payment } from './types';
 
+function getInitialParticipantData(): ParticipantData {
+  return {
+    totalAmountSpent: 0,
+    details: [],
+  };
+}
+
 export function calcPay(data: Payment[]): Participants {
   const participants: Participants = {};
 
@@ -24,11 +31,4 @@ export function calcPay(data: Payment[]): Participants {
   });
 
   return participants;
-}
-
-function getInitialParticipantData(): ParticipantData {
-  return {
-    totalAmountSpent: 0,
-    details: [],
-  };
 }

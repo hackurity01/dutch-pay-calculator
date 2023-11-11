@@ -8,7 +8,7 @@
   "trailingComma": "es5",
   "bracketSameLine": true,
   "bracketSpacing": true,
-  "importOrder": ["^[./]"],
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
