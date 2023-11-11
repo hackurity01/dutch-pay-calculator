@@ -177,6 +177,7 @@ function PaymentList() {
             },
           },
         }}
+        isRowSelectable={() => false}
         processRowUpdate={processRowUpdate}
         pageSizeOptions={[50]}
         slots={{
