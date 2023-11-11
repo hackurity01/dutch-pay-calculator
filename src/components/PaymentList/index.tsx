@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Select, SelectChangeEvent } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -8,13 +8,51 @@ import {
   GridRenderCellParams,
   GridRowId,
   GridRowModel,
+  useGridApiContext,
 } from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 
 import Tag from '@/components/Tag';
 import { paymentListAtom } from '@/stores/paymentListAtom';
+import { PaymentCategory } from '@/types';
 import { getInitialPaymentData } from '@/utils';
+
+function SelectEditInputCell(props: GridRenderCellParams) {
+  const { id, value, field } = props;
+  const apiRef = useGridApiContext();
+
+  const handleChange = async (event: SelectChangeEvent) => {
+    await apiRef.current.setEditCellValue({ id, field, value: event.target.value });
+    apiRef.current.stopCellEditMode({ id, field });
+  };
+
+  return (
+    <Select
+      value={value}
+      onChange={handleChange}
+      size="small"
+      sx={{
+        height: 1,
+        width: '100%',
+        outline: 'none',
+        '& select': { textAlign: 'center' },
+        '& fieldset': { border: 'none' },
+      }}
+      native
+      autoFocus>
+      <option value="ACCOMMODATION">{PaymentCategory.ACCOMMODATION}</option>
+      <option value="FOOD">{PaymentCategory.FOOD}</option>
+      <option value="TRANSPORTATION">{PaymentCategory.TRANSPORTATION}</option>
+      <option value="ACTIVITY">{PaymentCategory.ACTIVITY}</option>
+      <option value="ETC">{PaymentCategory.ETC}</option>
+    </Select>
+  );
+}
+
+const renderSelectEditInputCell: GridColDef['renderCell'] = (params) => {
+  return <SelectEditInputCell {...params} />;
+};
 
 const renderParticipant = (params: GridRenderCellParams<any, string[]>) => {
   return (
@@ -72,18 +110,58 @@ function PaymentList() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'category', headerName: '카테고리', width: 150, type: 'singleSelect' },
-    { field: 'name', headerName: '내용', width: 150, editable: true },
-    { field: 'payer', headerName: '결제자', width: 150, editable: true },
+    {
+      field: 'category',
+      headerName: '카테고리',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      type: 'singleSelect',
+      editable: true,
+      disableColumnMenu: true,
+      renderEditCell: renderSelectEditInputCell,
+      renderCell: (params) => {
+        return PaymentCategory[params.value as keyof typeof PaymentCategory];
+      },
+    },
+    {
+      field: 'name',
+      headerName: '내용',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      editable: true,
+      sortable: false,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'payer',
+      headerName: '결제자',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      editable: true,
+      disableColumnMenu: true,
+    },
     {
       field: 'participants',
       headerName: '참여자',
       width: 150,
       editable: true,
+      sortable: false,
+      disableColumnMenu: true,
       renderCell: renderParticipant,
       renderEditCell: renderParticipantSelectorCell,
     },
-    { field: 'date', headerName: '날짜', width: 150, editable: true },
+    {
+      field: 'date',
+      headerName: '날짜',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+      editable: true,
+      disableColumnMenu: true,
+    },
     {
       field: 'totalAmount',
       headerName: '총 결제 금액',
@@ -91,6 +169,7 @@ function PaymentList() {
       align: 'right',
       headerAlign: 'right',
       editable: true,
+      disableColumnMenu: true,
       renderCell: (params) => {
         return params.value.toLocaleString('en-US');
       },

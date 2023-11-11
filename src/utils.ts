@@ -1,10 +1,10 @@
-import { ParticipantData, Participants, Payment } from './types';
+import { ParticipantData, Participants, Payment, PaymentRowData } from './types';
 
-export function getInitialPaymentData() {
+export function getInitialPaymentData(): PaymentRowData {
   return {
     id: new Date().getTime(),
     name: '',
-    category: '',
+    category: 'ETC',
     payer: '',
     participants: [''],
     date: '',

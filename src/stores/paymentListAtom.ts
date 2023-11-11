@@ -1,12 +1,12 @@
 import { atom } from 'jotai';
 
-import { Payment } from '../types';
+import { PaymentRowData } from '@/types';
 
-export const paymentListAtom = atom<(Payment & { id: string | number })[]>([
+export const paymentListAtom = atom<PaymentRowData[]>([
   {
     id: 1,
     name: '1',
-    category: 'Hello',
+    category: 'ETC',
     payer: 'AAA',
     participants: ['AAA', 'BBB', 'AA'],
     date: '',
@@ -15,7 +15,7 @@ export const paymentListAtom = atom<(Payment & { id: string | number })[]>([
   {
     id: 2,
     name: '2',
-    category: 'Hello',
+    category: 'ETC',
     payer: 'BBB',
     participants: ['BBB', 'AA'],
     date: '',
@@ -24,7 +24,7 @@ export const paymentListAtom = atom<(Payment & { id: string | number })[]>([
   {
     id: 3,
     name: '3',
-    category: 'Hello',
+    category: 'ETC',
     payer: 'AAA',
     participants: ['AAA'],
     date: '',
