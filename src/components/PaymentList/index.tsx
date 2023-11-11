@@ -15,7 +15,7 @@ const renderParticipantSelectorCell: GridColDef['renderCell'] = (params) => {
   return (
     <input
       type="text"
-      value={params.value.join(', ')}
+      value={params.value.join(',')}
       onChange={(e) => {
         const value = e.target.value;
         params.api.setEditCellValue({ ...params, value: value.replace(/\s/g, '').split(',') });
@@ -58,7 +58,6 @@ function PaymentList() {
   const [paymentList, setPaymentList] = useAtom(paymentListAtom);
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    console.log('newRow', newRow);
     const updatedRow = { ...newRow, isNew: false };
     setPaymentList(paymentList.map((row) => (row.id === newRow.id ? (updatedRow as any) : row)));
     return newRow;
@@ -78,9 +77,6 @@ function PaymentList() {
       }, []);
   }, [paymentList]);
 
-  console.log('allParticipants', allParticipants);
-  console.log('paymentList', paymentList);
-
   return (
     <>
       <DataGrid
@@ -89,18 +85,18 @@ function PaymentList() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 50,
             },
           },
         }}
         processRowUpdate={processRowUpdate}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[50]}
         checkboxSelection
         disableRowSelectionOnClick
-        slots={{
-          toolbar: () => <div>toolbar</div>,
-          footer: () => <div>footer</div>,
-        }}
+        // slots={{
+        //   toolbar: () => <div>toolbar</div>,
+        //   footer: () => <div>footer</div>,
+        // }}
       />
     </>
   );

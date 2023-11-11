@@ -18,7 +18,6 @@ function Result() {
   const resultAsMap = calcPay(paymentList);
   const resultAsList = Object.entries(resultAsMap).map(([key, value]) => ({ name: key, ...value }));
 
-  console.log(resultAsList);
   return (
     <Table aria-label="collapsible table" size="small">
       <TableHead>
@@ -31,8 +30,8 @@ function Result() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {resultAsList.map((result) => (
-          <ResultRow {...result} />
+        {resultAsList.map((result, index) => (
+          <ResultRow key={index} {...result} />
         ))}
       </TableBody>
     </Table>
