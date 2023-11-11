@@ -11,7 +11,7 @@ export type Payment = {
   name: string;
   payer: string;
   participants: string[];
-  date: string;
+  date: Date;
   totalAmount: number;
 };
 

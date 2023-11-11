@@ -15,7 +15,7 @@ import { useMemo } from 'react';
 import Tag from '@/components/Tag';
 import { paymentListAtom } from '@/stores/paymentListAtom';
 import { PaymentCategory } from '@/types';
-import { getInitialPaymentData } from '@/utils';
+import { getInitialPaymentData } from '@/utils/payment';
 
 const renderParticipant = (params: GridRenderCellParams<any, string[]>) => {
   return (
@@ -163,6 +163,8 @@ function PaymentList() {
     },
   ];
 
+  console.log(paymentList);
+
   return (
     <>
       <DataGrid
@@ -194,6 +196,9 @@ function PaymentList() {
               padding: 0.5,
               minHeight: '48px!important',
               maxHeight: 'none!important',
+              '.MuiInputBase-root': {
+                height: '100%',
+              },
 
               '.MuiInputBase-input': {
                 padding: 0,

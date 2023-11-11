@@ -1,4 +1,4 @@
-import { ParticipantData, Participants, Payment, PaymentRowData } from './types';
+import { ParticipantData, Participants, Payment, PaymentRowData } from '../types';
 
 export function getInitialPaymentData(): PaymentRowData {
   return {
@@ -7,7 +7,7 @@ export function getInitialPaymentData(): PaymentRowData {
     category: 'ETC',
     payer: '',
     participants: [''],
-    date: '',
+    date: new Date(),
     totalAmount: 0,
   };
 }

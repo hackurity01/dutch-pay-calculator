@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableCellProps, TableHead, TableRow } from
 import { useAtomValue } from 'jotai';
 
 import { paymentListAtom } from '@/stores/paymentListAtom';
-import { calcPay } from '@/utils';
+import { calcPay } from '@/utils/payment';
 
 import ResultRow from './ResultRow';
 

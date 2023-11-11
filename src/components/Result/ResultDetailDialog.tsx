@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 
 import { Detail } from '@/types';
+import { formatDate } from '@/utils/date';
 
 type ResultDetailDialogProps = {
   open: boolean;
@@ -35,7 +36,7 @@ function ResultDetailDialog({ open, onClose, details }: ResultDetailDialogProps)
               <TableCell component="th" scope="row">
                 {payment.name}
               </TableCell>
-              <TableCell>{payment.date}</TableCell>
+              <TableCell>{formatDate(payment.date, 'yyyy.MM.dd.')}</TableCell>
               <TableCell align="right">{amount}</TableCell>
             </TableRow>
           ))}

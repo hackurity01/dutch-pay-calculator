@@ -9,7 +9,7 @@ export const paymentListAtom = atom<PaymentRowData[]>([
     category: 'ETC',
     payer: 'AAA',
     participants: ['AAA', 'BBB', 'AA'],
-    date: '',
+    date: new Date(),
     totalAmount: 300,
   },
   {
@@ -18,7 +18,7 @@ export const paymentListAtom = atom<PaymentRowData[]>([
     category: 'ETC',
     payer: 'BBB',
     participants: ['BBB', 'AA'],
-    date: '',
+    date: new Date(),
     totalAmount: 20,
   },
   {
@@ -27,7 +27,7 @@ export const paymentListAtom = atom<PaymentRowData[]>([
     category: 'ETC',
     payer: 'AAA',
     participants: ['AAA'],
-    date: '',
+    date: new Date(),
     totalAmount: 1,
   },
 ]);
