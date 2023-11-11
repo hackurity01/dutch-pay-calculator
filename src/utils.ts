@@ -36,7 +36,7 @@ export function calcPay(data: Payment[]): Participants {
         participants[p] = getInitialParticipantData();
       }
       participants[p].totalAmountSpent -= paymentAmountPerPerson;
-      participants[p].details.push({ amount: paymentAmountPerPerson, payment: item });
+      participants[p].details.push({ amount: -paymentAmountPerPerson, payment: item });
     });
 
     participants[item.payer].totalAmountSpent += totalAmount;
