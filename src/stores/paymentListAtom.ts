@@ -2,9 +2,9 @@ import { atom } from 'jotai';
 
 import { Payment } from '../types';
 
-export const paymentListAtom = atom<(Payment & { id: string })[]>([
+export const paymentListAtom = atom<(Payment & { id: string | number })[]>([
   {
-    id: '1',
+    id: 1,
     name: '1',
     category: 'Hello',
     payer: 'AAA',
@@ -13,7 +13,7 @@ export const paymentListAtom = atom<(Payment & { id: string })[]>([
     totalAmount: 300,
   },
   {
-    id: '2',
+    id: 2,
     name: '2',
     category: 'Hello',
     payer: 'BBB',
@@ -22,7 +22,7 @@ export const paymentListAtom = atom<(Payment & { id: string })[]>([
     totalAmount: 20,
   },
   {
-    id: '3',
+    id: 3,
     name: '3',
     category: 'Hello',
     payer: 'AAA',

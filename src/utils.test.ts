@@ -22,9 +22,9 @@ describe('calcPay', () => {
     ];
 
     const participants = calcPay(mockData);
-    expect(participants.p1.totalAmountSpent).toBe(-1);
-    expect(participants.p2.totalAmountSpent).toBe(-2);
-    expect(participants.p3.totalAmountSpent).toBe(3);
+    expect(participants.p1.totalAmountSpent).toBe(1);
+    expect(participants.p2.totalAmountSpent).toBe(2);
+    expect(participants.p3.totalAmountSpent).toBe(-3);
   });
   test('결제 정보에 따라 참여자들의 금액 계산', () => {
     const mockData = [

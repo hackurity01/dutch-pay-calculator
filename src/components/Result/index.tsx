@@ -16,7 +16,9 @@ function Result() {
   const paymentList = useAtomValue(paymentListAtom);
 
   const resultAsMap = calcPay(paymentList);
-  const resultAsList = Object.entries(resultAsMap).map(([key, value]) => ({ name: key, ...value }));
+  const resultAsList = Object.entries(resultAsMap)
+    .map(([key, value]) => ({ name: key, ...value }))
+    .filter((item) => item.name && item.totalAmountSpent);
 
   return (
     <Table aria-label="collapsible table" size="small">

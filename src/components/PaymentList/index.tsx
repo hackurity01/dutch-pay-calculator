@@ -1,58 +1,43 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button } from '@mui/material';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRenderCellParams,
+  GridRowId,
+  GridRowModel,
+} from '@mui/x-data-grid';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 
-import { paymentListAtom } from '../../stores/paymentListAtom';
-import Tag from '../Tag';
+import Tag from '@/components/Tag';
+import { paymentListAtom } from '@/stores/paymentListAtom';
+import { getInitialPaymentData } from '@/utils';
 
-function renderParticipant(params: GridRenderCellParams<any, string[]>) {
+const renderParticipant = (params: GridRenderCellParams<any, string[]>) => {
   return (
     <div className="flex flex-wrap gap-1">{params.value?.map((v) => <Tag key={v}>{v}</Tag>)}</div>
   );
-}
+};
 
 const renderParticipantSelectorCell: GridColDef['renderCell'] = (params) => {
   return (
-    <input
-      type="text"
-      value={params.value.join(',')}
-      onChange={(e) => {
-        const value = e.target.value;
-        params.api.setEditCellValue({ ...params, value: value.replace(/\s/g, '').split(',') });
-      }}
-    />
+    <div className="MuiInputBase-root">
+      <input
+        type="text"
+        className="MuiInputBase-input"
+        value={params.value.join(',')}
+        onChange={(e) => {
+          const value = e.target.value.replace(/\s/g, '').split(',');
+          const uniqueValue = [...new Set(value)];
+          params.api.setEditCellValue({ ...params, value: uniqueValue });
+        }}
+      />
+    </div>
   );
 };
-
-const columns: GridColDef[] = [
-  { field: 'category', headerName: '카테고리', width: 150, type: 'singleSelect' },
-  { field: 'name', headerName: '내용', width: 150, editable: true },
-  { field: 'payer', headerName: '결제자', width: 150 },
-  {
-    field: 'participants',
-    headerName: '참여자',
-    width: 150,
-    editable: true,
-    renderCell: renderParticipant,
-    renderEditCell: renderParticipantSelectorCell,
-  },
-  { field: 'date', headerName: '날짜', width: 150, editable: true },
-  {
-    field: 'totalAmount',
-    headerName: '총 결제 금액',
-    width: 150,
-    align: 'right',
-    headerAlign: 'right',
-    editable: true,
-    renderCell: (params) => {
-      return params.value.toLocaleString('en-US');
-    },
-    valueSetter: (params) => {
-      const totalAmount = parseInt(params.value!);
-      return { ...params.row, totalAmount };
-    },
-  },
-];
 
 function PaymentList() {
   const [paymentList, setPaymentList] = useAtom(paymentListAtom);
@@ -61,6 +46,11 @@ function PaymentList() {
     const updatedRow = { ...newRow, isNew: false };
     setPaymentList(paymentList.map((row) => (row.id === newRow.id ? (updatedRow as any) : row)));
     return newRow;
+  };
+
+  const addRow = () => {
+    const newData = getInitialPaymentData();
+    setPaymentList((p) => [...p, newData]);
   };
 
   const allParticipants = useMemo(() => {
@@ -77,6 +67,55 @@ function PaymentList() {
       }, []);
   }, [paymentList]);
 
+  const handleDeleteClick = (id: GridRowId) => () => {
+    setPaymentList(paymentList.filter((p) => p.id !== id));
+  };
+
+  const columns: GridColDef[] = [
+    { field: 'category', headerName: '카테고리', width: 150, type: 'singleSelect' },
+    { field: 'name', headerName: '내용', width: 150, editable: true },
+    { field: 'payer', headerName: '결제자', width: 150, editable: true },
+    {
+      field: 'participants',
+      headerName: '참여자',
+      width: 150,
+      editable: true,
+      renderCell: renderParticipant,
+      renderEditCell: renderParticipantSelectorCell,
+    },
+    { field: 'date', headerName: '날짜', width: 150, editable: true },
+    {
+      field: 'totalAmount',
+      headerName: '총 결제 금액',
+      width: 150,
+      align: 'right',
+      headerAlign: 'right',
+      editable: true,
+      renderCell: (params) => {
+        return params.value.toLocaleString('en-US');
+      },
+      valueSetter: (params) => {
+        const totalAmount = parseInt(params.value!);
+        return { ...params.row, totalAmount };
+      },
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: '삭제',
+      getActions: ({ id }) => {
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+
   return (
     <>
       <DataGrid
@@ -91,12 +130,31 @@ function PaymentList() {
         }}
         processRowUpdate={processRowUpdate}
         pageSizeOptions={[50]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        // slots={{
-        //   toolbar: () => <div>toolbar</div>,
-        //   footer: () => <div>footer</div>,
-        // }}
+        slots={{
+          toolbar: () => (
+            <Box sx={{ textAlign: 'right', p: 1 }}>
+              <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={addRow}>
+                내역 추가
+              </Button>
+            </Box>
+          ),
+          // footer: () => <div>footer</div>,
+        }}
+        sx={{
+          '& .MuiDataGrid-row': {
+            maxHeight: 'none!important',
+            '.MuiDataGrid-cell': {
+              padding: 0.5,
+              minHeight: '48px!important',
+              maxHeight: 'none!important',
+
+              '.MuiInputBase-input': {
+                padding: 0,
+                outline: 'none',
+              },
+            },
+          },
+        }}
       />
     </>
   );
