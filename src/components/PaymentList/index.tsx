@@ -188,7 +188,6 @@ function PaymentList() {
               </Button>
             </Box>
           ),
-          // footer: () => <div>footer</div>,
         }}
         sx={{
           '& .MuiDataGrid-row': {
