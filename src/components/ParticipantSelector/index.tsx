@@ -1,7 +1,9 @@
 import { useAutocomplete } from '@mui/material';
 import { GridRenderEditCellParams } from '@mui/x-data-grid';
-import { InputWrapper, Listbox, StyledTag } from './index.styled';
+
 import Tag from '../Tag';
+import { InputWrapper, Listbox, StyledTag } from './index.styled';
+
 const top100Films = [
   { label: 'The Shawshank Redemption', year: 1994 },
   { label: 'The Godfather', year: 1972 },
@@ -16,7 +18,7 @@ interface FilmOptionType {
 
 // TODO: 임시 컴포넌트 (참가자 필드가 자동완성 될 수 있도록 하는 컴포넌트)
 function ParticipantSelector(props?: GridRenderEditCellParams) {
-  const { id, value, field, hasFocus } = props;
+  const { id, value, field, hasFocus } = props ?? {};
 
   const {
     getRootProps,

@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button } from '@mui/material';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -13,6 +14,7 @@ import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 
 import Tag from '@/components/Tag';
+import { SAMPLE_DATA } from '@/constants/sampleData';
 import { paymentListAtom } from '@/stores/paymentListAtom';
 import { PaymentCategory } from '@/types';
 import { getInitialPaymentData } from '@/utils/payment';
@@ -54,6 +56,14 @@ function PaymentList() {
     setPaymentList((p) => [...p, newData]);
   };
 
+  const handleDeleteClick = (id: GridRowId) => () => {
+    setPaymentList(paymentList.filter((p) => p.id !== id));
+  };
+
+  const fillSampleData = () => {
+    setPaymentList(SAMPLE_DATA);
+  };
+
   const allParticipants = useMemo(() => {
     return paymentList
       .map((r) => [r.payer, ...r.participants])
@@ -67,10 +77,6 @@ function PaymentList() {
         return arr;
       }, []);
   }, [paymentList]);
-
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setPaymentList(paymentList.filter((p) => p.id !== id));
-  };
 
   const columns: GridColDef[] = [
     {
@@ -94,7 +100,8 @@ function PaymentList() {
     {
       field: 'name',
       headerName: '내용',
-      width: 150,
+      flex: 150,
+      minWidth: 150,
       headerAlign: 'center',
       align: 'center',
       editable: true,
@@ -113,7 +120,8 @@ function PaymentList() {
     {
       field: 'participants',
       headerName: '참여자',
-      width: 150,
+      flex: 150,
+      minWidth: 150,
       editable: true,
       sortable: false,
       disableColumnMenu: true,
@@ -150,6 +158,7 @@ function PaymentList() {
       field: 'actions',
       type: 'actions',
       headerName: '삭제',
+      width: 100,
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
@@ -182,11 +191,23 @@ function PaymentList() {
         pageSizeOptions={[50]}
         slots={{
           toolbar: () => (
-            <Box sx={{ textAlign: 'right', p: 1 }}>
+            <Box sx={{ textAlign: 'right', p: 1, mr: 5 }}>
               <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={addRow}>
                 내역 추가
               </Button>
             </Box>
+          ),
+          noRowsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              <Typography mb={1}>결제 내역이 없습니다.</Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<ListAltIcon />}
+                onClick={fillSampleData}>
+                샘플 내역 채우기
+              </Button>
+            </Stack>
           ),
         }}
         sx={{
@@ -210,6 +231,9 @@ function PaymentList() {
               },
               '& fieldset': { border: 'none' },
             },
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            height: '200px',
           },
         }}
       />
