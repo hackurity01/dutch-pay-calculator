@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import {
@@ -162,7 +162,7 @@ function PaymentList() {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<DeleteIcon />}
+            icon={<DeleteForeverOutlinedIcon color="error" />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
