@@ -1,16 +1,10 @@
+import ColorHash from 'color-hash';
 import memoize from 'sonic-memoize';
 
+const colorHash = new ColorHash();
+
 export const strToColor = memoize((str: string) => {
-  let hash = 0;
-  str.split('').forEach((char) => {
-    hash = char.charCodeAt(0) + ((hash << 5) - hash);
-  });
-  let color = '#';
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += value.toString(16).padStart(2, '0');
-  }
-  return color + 'cc';
+  return colorHash.hex(str) + 'dd';
 });
 
 function hexToRgb(hex: string) {
@@ -28,8 +22,9 @@ function hexToRgb(hex: string) {
 }
 
 export function getTextColor(baseColor: string) {
+  const CRITERION = 150;
   const rgb = hexToRgb(baseColor);
   const brightness = Math.round((rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000);
 
-  return brightness > 125 ? 'black' : 'white';
+  return brightness > CRITERION ? 'black' : 'white';
 }
