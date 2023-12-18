@@ -1,8 +1,10 @@
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import { IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, IconButton, Stack, TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 
+import NameTag from '@/components/NameTag';
 import { ParticipantData } from '@/types';
+import { comma } from '@/utils/comma';
 
 import ResultDetailDialog from './ResultDetailDialog';
 
@@ -13,9 +15,9 @@ function ResultRow({ name, totalAmountSpent, details }: { name: string } & Parti
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell component="th" scope="row">
-          {name}
+          <NameTag name={name} />
         </TableCell>
-        <TableCell align="right">{totalAmountSpent}</TableCell>
+        <TableCell align="right">{comma(totalAmountSpent)}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             <ManageSearchIcon />
@@ -23,7 +25,7 @@ function ResultRow({ name, totalAmountSpent, details }: { name: string } & Parti
         </TableCell>
       </TableRow>
       <ResultDetailDialog
-        title={`${name}의 정산 내역`}
+        name={name}
         open={open}
         onClose={() => setOpen(false)}
         details={details}

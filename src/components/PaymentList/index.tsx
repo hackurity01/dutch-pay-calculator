@@ -2,8 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -15,16 +14,25 @@ import {
 import { useAtom, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
 
-import Tag from '@/components/Tag';
 import { SAMPLE_DATA } from '@/constants/sampleData';
 import { resultDialogAtom } from '@/stores/dialogAtoms/result';
 import { paymentListAtom } from '@/stores/paymentListAtom';
 import { PaymentCategory } from '@/types';
+import { comma } from '@/utils/comma';
 import { getInitialPaymentData } from '@/utils/payment';
+
+import NameTag from '../NameTag';
+
+const renderPayer = (params: GridRenderCellParams<any, string>) => {
+  const name = params.value ?? '';
+  return <NameTag name={name} />;
+};
 
 const renderParticipant = (params: GridRenderCellParams<any, string[]>) => {
   return (
-    <div className="flex flex-wrap gap-1">{params.value?.map((v) => <Tag key={v}>{v}</Tag>)}</div>
+    <div className="flex flex-wrap gap-1">
+      {params.value?.map((v) => <NameTag key={v} name={v} />)}
+    </div>
   );
 };
 
@@ -120,6 +128,7 @@ function PaymentList() {
       align: 'center',
       editable: true,
       disableColumnMenu: true,
+      renderCell: renderPayer,
     },
     {
       field: 'participants',
@@ -151,7 +160,7 @@ function PaymentList() {
       editable: true,
       disableColumnMenu: true,
       renderCell: (params) => {
-        return params.value.toLocaleString('en-US');
+        return comma(params.value);
       },
       valueSetter: (params) => {
         const totalAmount = parseInt(params.value!);

@@ -9,19 +9,25 @@ import {
 } from '@mui/material';
 
 import { Detail } from '@/types';
+import { comma } from '@/utils/comma';
 import { formatDate } from '@/utils/date';
 
+import NameTag from '../NameTag';
+
 type ResultDetailDialogProps = {
-  title: string;
+  name: string;
   open: boolean;
   onClose: () => void;
   details: Detail[];
 };
 
-function ResultDetailDialog({ title, open, onClose, details }: ResultDetailDialogProps) {
+function ResultDetailDialog({ name, open, onClose, details }: ResultDetailDialogProps) {
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>
+        <NameTag name={name} />
+        <span style={{ verticalAlign: 'middle' }}>의 정산 내역</span>
+      </DialogTitle>
       <Table size="small" aria-label="purchases" sx={{ width: 'auto', ml: 'auto' }}>
         <TableHead>
           <TableRow>
@@ -37,7 +43,7 @@ function ResultDetailDialog({ title, open, onClose, details }: ResultDetailDialo
                 {payment.name}
               </TableCell>
               <TableCell>{formatDate(payment.date, 'yyyy.MM.dd.')}</TableCell>
-              <TableCell align="right">{amount}</TableCell>
+              <TableCell align="right">{comma(amount)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

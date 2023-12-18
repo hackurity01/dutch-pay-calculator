@@ -32,6 +32,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  sonic-memoize:
+    specifier: ^1.1.3
+    version: 1.1.3
 
 devDependencies:
   '@trivago/prettier-plugin-sort-imports':
@@ -3861,6 +3864,10 @@ packages:
   /slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+
+  /sonic-memoize@1.1.3:
+    resolution: {integrity: sha512-dpKe+Mjd/kii/LznKTcacMNdYq9t5DJpg6NcbuFuRgilv39DjPII7hi/+ojB0hH3XbC4Sa//8YrmAeIDIvRn5A==}
+    dev: false
 
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
