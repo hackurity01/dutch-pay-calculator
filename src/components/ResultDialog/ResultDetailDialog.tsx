@@ -12,16 +12,16 @@ import { Detail } from '@/types';
 import { formatDate } from '@/utils/date';
 
 type ResultDetailDialogProps = {
+  title: string;
   open: boolean;
   onClose: () => void;
   details: Detail[];
 };
 
-function ResultDetailDialog({ open, onClose, details }: ResultDetailDialogProps) {
+function ResultDetailDialog({ title, open, onClose, details }: ResultDetailDialogProps) {
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>상세 내용</DialogTitle>
-
+      <DialogTitle>{title}</DialogTitle>
       <Table size="small" aria-label="purchases" sx={{ width: 'auto', ml: 'auto' }}>
         <TableHead>
           <TableRow>

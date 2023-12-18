@@ -1,7 +1,9 @@
 import AddIcon from '@mui/icons-material/Add';
+import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -10,11 +12,12 @@ import {
   GridRowId,
   GridRowModel,
 } from '@mui/x-data-grid';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
 
 import Tag from '@/components/Tag';
 import { SAMPLE_DATA } from '@/constants/sampleData';
+import { resultDialogAtom } from '@/stores/dialogAtoms/result';
 import { paymentListAtom } from '@/stores/paymentListAtom';
 import { PaymentCategory } from '@/types';
 import { getInitialPaymentData } from '@/utils/payment';
@@ -44,6 +47,7 @@ const renderParticipantSelectorCell: GridColDef['renderCell'] = (params) => {
 
 function PaymentList() {
   const [paymentList, setPaymentList] = useAtom(paymentListAtom);
+  const setResultDialogOpen = useSetAtom(resultDialogAtom);
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -191,9 +195,21 @@ function PaymentList() {
         pageSizeOptions={[50]}
         slots={{
           toolbar: () => (
-            <Box sx={{ textAlign: 'right', p: 1, mr: 5 }}>
+            <Box sx={{ textAlign: 'right', p: 2 }}>
               <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={addRow}>
                 내역 추가
+              </Button>
+            </Box>
+          ),
+          footer: () => (
+            <Box sx={{ textAlign: 'right', p: 2, borderTop: '2px solid #e5e7eb' }}>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<CalculateOutlinedIcon />}
+                onClick={() => setResultDialogOpen(true)}
+                disabled={!paymentList.length}>
+                정산하기
               </Button>
             </Box>
           ),
@@ -211,29 +227,32 @@ function PaymentList() {
           ),
         }}
         sx={{
-          '& .MuiDataGrid-row': {
-            maxHeight: 'none!important',
-            '.MuiDataGrid-cell': {
-              padding: 0.5,
-              minHeight: '48px!important',
+          '&': {
+            border: 'none',
+            '.MuiDataGrid-row': {
               maxHeight: 'none!important',
-              '.MuiInputBase-root': {
-                height: '100%',
-              },
+              '.MuiDataGrid-cell': {
+                padding: 0.5,
+                minHeight: '48px!important',
+                maxHeight: 'none!important',
+                '.MuiInputBase-root': {
+                  height: '100%',
+                },
 
-              '.MuiInputBase-input': {
-                padding: 0,
-                outline: 'none',
-              },
+                '.MuiInputBase-input': {
+                  padding: 0,
+                  outline: 'none',
+                },
 
-              '.MuiSelect-select': {
-                textAlign: 'center',
+                '.MuiSelect-select': {
+                  textAlign: 'center',
+                },
+                '& fieldset': { border: 'none' },
               },
-              '& fieldset': { border: 'none' },
             },
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            height: '200px',
+            '.MuiDataGrid-virtualScroller': {
+              minHeight: '200px',
+            },
           },
         }}
       />

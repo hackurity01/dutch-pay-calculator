@@ -1,18 +1,16 @@
-import { Box, Container } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 
 import PaymentList from './components/PaymentList';
-import Result from './components/Result';
+import ResultDialog from './components/ResultDialog';
 
 function App() {
   return (
-    <Container maxWidth="xl">
-      <Box>
+    <Paper elevation={3} sx={{ borderRadius: 3 }}>
+      <Box height="calc(100vh - 100px)">
         <PaymentList />
+        <ResultDialog />
       </Box>
-      <Box>
-        <Result />
-      </Box>
-    </Container>
+    </Paper>
   );
 }
 

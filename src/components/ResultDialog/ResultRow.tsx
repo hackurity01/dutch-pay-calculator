@@ -22,7 +22,12 @@ function ResultRow({ name, totalAmountSpent, details }: { name: string } & Parti
           </IconButton>
         </TableCell>
       </TableRow>
-      <ResultDetailDialog open={open} onClose={() => setOpen(false)} details={details} />
+      <ResultDetailDialog
+        title={`${name}의 정산 내역`}
+        open={open}
+        onClose={() => setOpen(false)}
+        details={details}
+      />
     </>
   );
 }
