@@ -1,4 +1,3 @@
-import AddIcon from '@mui/icons-material/Add';
 import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -22,6 +21,7 @@ import { comma } from '@/utils/comma';
 import { getInitialPaymentData } from '@/utils/payment';
 
 import NameTag from '../NameTag';
+import Toolbar from './Toolbar';
 
 const renderPayer = (params: GridRenderCellParams<any, string>) => {
   const name = params.value ?? '';
@@ -61,11 +61,6 @@ function PaymentList() {
     const updatedRow = { ...newRow, isNew: false };
     setPaymentList(paymentList.map((row) => (row.id === newRow.id ? (updatedRow as any) : row)));
     return newRow;
-  };
-
-  const addRow = () => {
-    const newData = getInitialPaymentData();
-    setPaymentList((p) => [...p, newData]);
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
@@ -203,13 +198,7 @@ function PaymentList() {
         processRowUpdate={processRowUpdate}
         pageSizeOptions={[50]}
         slots={{
-          toolbar: () => (
-            <Box sx={{ textAlign: 'right', p: 2 }}>
-              <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={addRow}>
-                내역 추가
-              </Button>
-            </Box>
-          ),
+          toolbar: () => <Toolbar />,
           footer: () => (
             <Box sx={{ textAlign: 'right', p: 2, borderTop: '2px solid #e5e7eb' }}>
               <Button
