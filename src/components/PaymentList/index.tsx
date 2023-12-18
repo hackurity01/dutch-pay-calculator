@@ -118,7 +118,7 @@ function PaymentList() {
     {
       field: 'payer',
       headerName: '결제자',
-      width: 150,
+      width: 120,
       headerAlign: 'center',
       align: 'center',
       editable: true,
@@ -140,7 +140,7 @@ function PaymentList() {
       type: 'date',
       field: 'date',
       headerName: '날짜',
-      width: 150,
+      width: 130,
       headerAlign: 'center',
       align: 'center',
       editable: true,
@@ -149,7 +149,7 @@ function PaymentList() {
     {
       field: 'totalAmount',
       headerName: '총 결제 금액',
-      width: 150,
+      width: 120,
       align: 'right',
       headerAlign: 'right',
       editable: true,
@@ -166,7 +166,7 @@ function PaymentList() {
       field: 'actions',
       type: 'actions',
       headerName: '삭제',
-      width: 100,
+      width: 60,
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
