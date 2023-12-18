@@ -180,8 +180,6 @@ function PaymentList() {
     },
   ];
 
-  console.log(paymentList);
-
   return (
     <>
       <DataGrid

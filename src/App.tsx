@@ -1,4 +1,5 @@
 import { Box, Container, Paper } from '@mui/material';
+import { Analytics } from '@vercel/analytics/react';
 
 import PaymentList from './components/PaymentList';
 import ResultDialog from './components/ResultDialog';
@@ -12,6 +13,7 @@ function App() {
           <ResultDialog />
         </Box>
       </Paper>
+      <Analytics />
     </Container>
   );
 }
